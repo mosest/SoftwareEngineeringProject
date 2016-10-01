@@ -12,13 +12,15 @@ class Person {
 	//static Image feathers = null;
 	int leftCounter, rightCounter;
 	int x, y, width, height;
-	boolean collision, leftDirection;
+	boolean collision, leftDirection, jump;
 	double gravity;
-	int gravityCounter;
+	int gravityCounter, jumpCounter;
+	//Boolean values for Walking
+	boolean WalkLeft, WalkRight;
 	
 	
 	Person()throws IOException{
-		x = 0;
+		x = 100;
 		y = 700;
 		width = 44;
 		height = 64;
@@ -27,12 +29,32 @@ class Person {
 	}
 	
 	public void update() {
+		
+		//Image Rendering Frame Counters
 		leftCounter -= 1;
 		rightCounter -= 1;
-		if (collision == false){
-			gravity += 1.6;
+		
+		//Walking Left or Right based off Boolean Value
+		if (WalkLeft){
+			x = x - 6;
+		}
+		if(WalkRight){
+			x = x + 6;
+		}
+		if (gravity >= 25){
+			gravity = 25;
+		}
+		if (collision == false && gravity <= 25){
+			gravity += 3.6;
 			gravityCounter -= 1;
 			y += gravity;
+			jump = false;
+		}
+		else if(jumpCounter <= 0 && gravity <= 25 && jump == true){
+			gravity += 77;
+			gravityCounter -= 1;
+			y+= gravity;
+			jumpCounter++;
 		}
 		else{
 			gravity = 0;
@@ -48,6 +70,9 @@ class Person {
 			//else if (leftCounter >= 2){
 			//	g.drawImage(personLeftWalking, x, y, null);
 			//}
+			//else if (gravityCounter >= 2){
+			//	g.drawImage(personLeftJump, x, y, null);
+			//}
 		}
 		else{
 			if (rightCounter < 2){
@@ -56,28 +81,61 @@ class Person {
 			//else if (leftCounter >= 2){
 			//	g.drawImage(personLeftWalking, x, y, null);
 			//}
+			//else if (gravityCounter >= 2){
+			//	g.drawImage(personRightJump, x, y, null);
+			//}
 		}
 		
 	}
 	
 	public void walkLeft() {
+		//Image Rendering
 		//if (leftCounter < -5)
 		//	leftCounter = 8;
-		x = x - 9;
+		
+		//Set Boolean Value to True for Update
+		WalkLeft = true;
+		//WalkRight = false;
 		leftDirection = true;
 	}
+	
 	public void walkRight() {
+		//Image Rendering
 		//if (rightCounter < -5)
 		//	rightCounter = 8;
-		x = x + 9;
+		
+		//Set Boolean Value to True for Update
+		WalkRight = true;
+		//WalkLeft = false;
 		leftDirection = false;
 	}
+	
+	public void stopWalkLeft(){
+		//Set Boolean Value to False for Update
+		WalkLeft = false;
+		if(WalkRight == true){
+			leftDirection = false;
+		}
+	}
+	
+	public void stopWalkRight(){
+		//Set Boolean Value to False for Update
+		WalkRight = false;
+		if(WalkLeft == true){
+			leftDirection = true;
+		}
+	}
+	
+	
 	public void jump(){
+		jumpCounter = 0;
+		jump = true;
 		if (collision){
-			gravity = 0;
-			gravity -= 75;
-			y += gravity;
-			gravityCounter = 8;
+			if (jumpCounter == 0)
+				gravity = 0;
+				gravity -= 100;
+				//y += gravity;
+				gravityCounter = 8;
 		}
 		else{
 			//do nothing -- fall

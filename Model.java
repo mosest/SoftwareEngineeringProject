@@ -3,22 +3,24 @@ import java.io.IOException;
 
 class Model
 {
-	Person person;
 	Map demoMap;
+	Person person;
 	int person_x;
 	int person_y;
 	Model() throws IOException {
-		person = new Person();
 		demoMap = new Map();
+		person = new Person();
 	}
 	
 	Model(Model m) {		
 	}
 
 	public void update() {
+		//Update person
 		this.person.update();
+		
 		if(collision()){
-			
+			person.gravity = 0;
 		}
 		else{
 			
@@ -33,8 +35,16 @@ class Model
 	public void Jump(){
 		this.person.jump();
 	}
+	public void stopLeftArrow(){
+		this.person.stopWalkLeft();
+	}
+	public void stopRightArrow(){
+		this.person.stopWalkRight();
+	}
+	
 	boolean collision(){
-		if(person.x+person.width > demoMap.base.x && person.x < demoMap.base.x + demoMap.base.width && person.y + person.height+5> demoMap.base.y){
+		//Only collides with bottom floor, need to fix by iteration through list
+		if(person.x+person.width > demoMap.base.x && person.x < demoMap.base.x + demoMap.base.width && person.y+person.height+5> demoMap.base.y && person.y+person.height < demoMap.base.y){
 			person.collision = true;
 			return true;
 		}
@@ -42,18 +52,8 @@ class Model
 			person.collision = false;
 			return false;
 		}
-	}
 		
-	/*public void onClick(){
-		this.bird.flap();
 	}
-	
-	public void onClick2(){
-		ListIterator<Sprite> iterator;
-		iterator = sprites.listIterator();
-		iterator.add(new Pie(bird.x, bird.y, sprites));		
-	}*/
-	
 }
 
 

@@ -1,10 +1,6 @@
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import java.awt.Image;
-import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.awt.Graphics;
-import java.io.File;
 
 class View extends JPanel {
 	Model model;
@@ -16,9 +12,9 @@ class View extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		//Draw the Person
-		model.person.draw(g);
+		//Draw the Person & Map, Map first so person overlaps platforms
 		model.demoMap.draw(g);
+		model.person.draw(g);
 		//g.drawImage(this.person_image, this.model.person_x, this.model.person_y, null);
 	}
 }

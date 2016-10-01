@@ -10,15 +10,21 @@ class Platform
 	int x, y, image;
 	int width, height;
 	static Image Base = null;
+	static Image Platform = null;
 	
 	Platform(int x_coordinate, int y_coordinate, int imageNumber) throws IOException{
 		this.x = x_coordinate;
 		this.y = y_coordinate;
 		this.image = imageNumber;
 		Base = ImageIO.read(new File("1920.png"));
+		Platform = ImageIO.read(new File("1000.png"));
 		if (image == 1){
 			width = 1920;
-			height = 20;
+			height = 10;
+		}
+		else if (image == 2){
+			width = 1001;
+			height = 5;
 		}
 		else{
 			
@@ -31,7 +37,7 @@ class Platform
 			g.drawImage(Base, x, y, null);
 		}
 		else if(image == 2){
-			//Set image to ~500x20
+			g.drawImage(Platform, x, y, null);
 		}
 		else if(image == 3){
 			//Set image to ~800x20
